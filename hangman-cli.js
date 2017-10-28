@@ -3,7 +3,8 @@
 //import letter constructor which will build the users guesses
 //import word constructor which will compare users guesses with randomly generated word from wordBank
 //keep track of correct words and remaining guesses
-//
+
+//WIP - ran out of time on this.
 
 var inquirer = require("inquirer");
 var Word = require("./word");
@@ -34,8 +35,8 @@ var HangmanGame = {
         //that = this so we can use 'this' keyword in functions that are within methods on HangmanGame obj.
         var that = this;
         //clear everything to start game
-        if (this.lettersGuessed.length > 0) {
-            this.lettersGuessed = [];
+        if (that.lettersGuessed.length > 0) {
+            that.lettersGuessed = [];
         } else {
             inquirer.prompt([
                 {
@@ -61,22 +62,24 @@ var HangmanGame = {
         var that = this;
         if(remainingGuesses === 10){
             //choosing random word from wordBank to start game
-            this.currentWord = this.wordBank[Math.floor(Math.random() * this.wordBank.length)];
+            that.currentWord = that.wordBank[Math.floor(Math.random() * that.wordBank.length)];
             //splitting current word into an array to be able to compare with user guesses
-            this.lettersInCurrentWord = this.currentWord.split("");
-            console.log(this.lettersInCurrentWord);
-            //Counting number of letters in word
-            numBlanks = lettersInCurrentWord.length;
-            //reset guess and success array after each round
-            this.blanksAndSuccesses = [];
-            //reset wrong guesses from previous round
-            this.wrongGuesses = [];
+            that.lettersInCurrentWord = that.currentWord.split("");
+            console.log(that.lettersInCurrentWord);
 
+                //Counting number of letters in word
+                numBlanks = lettersInCurrentWord.length;
+                //reset guess and success array after each round
+                that.blanksAndSuccesses = [];
+                //reset wrong guesses from previous round
+                that.wrongGuesses = [];
+            }
             for(var i = 0; i < numBlanks; i++){
                 blanksAndSuccesses.push("_");
             }
             console.log(blanksAndSuccesses);
-        }
+            that.startGame();
+            that.promptUser();
     },
     //method that will ask user for their guess
     promptUser: function(){
@@ -84,17 +87,28 @@ var HangmanGame = {
             name: "getletter",
             type: "input",
             message: "Guess a letter!"
-        }]).then(function(letter){
-            var userLetter = (letter.getLetter).toLowerCase();
+        }]).then(function(Word){
+            var newWord = new Word;
+            if(newWord === currentWord) {
+                //console.log("")
+            }
         })
     },
-//if the user guesses the correct word or runs out of letter guesses, we reset amount of remaining guesses.
+//if the user guesses the correct word or runs out of letter guesses, reset amount of remaining guesses.
     resetGuesses: function () {
         this.remainingGuesses = 10
     },
-    roundComplete: function(){
+    roundFinished: function(){
+        var that = this;
+        //if the user guess the correct word increase winCounter
         if(lettersInChosenWord.toString() === blanksAndSuccesses.toString()){
-
+            that.winCounter++;
+            console.log("Nice guess!")
+            //if the user fails to guess the correct word, increase lossCounter
+        }else if(that.remainingGuesses === 0){
+            that.lossCounter++;
+            console.log("Close but no cigar.");
+            that.resetGuesses();
         }
     }
 

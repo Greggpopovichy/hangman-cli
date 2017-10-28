@@ -1,6 +1,8 @@
 var Letter = require("./letter");
 
 //constructor that represents current word the user is guessing
+//WIP, ran out of time to finish unfortunately.
+
 var Word = function(word){
 
     //initializing foundWord to false to start
@@ -8,20 +10,16 @@ var Word = function(word){
 
     //so we can access functions within functions in below object
     var that = this;
-    //
-    this.word = word;
 
     //array to hold guessed letters
     this.letters = [];
 
     //adding guessed letters to letters array
     this.getLetters = function(){
-        for(var i = 0; i < that.word.length; i++){
-            this.letters.push()
+        for(var i = 0; i < that.char.length; i++){
+            var newLetter = new Letter(that.char[i]);
+            that.letters.push(newLetter);
         }
-    };
-    this.getWords = function(){
-
     };
 };
 
